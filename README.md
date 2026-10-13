@@ -28,20 +28,6 @@
 
 ---
 
-## 📸 Application Previews
-
-### 1. 🟢 Live Deployed App on Netlify
-> Live Indian Stock Market with ticking NIFTY 50, SENSEX, Market Movers & 1-tap PWA install prompt.
-
-![GrowwPulse Live Demo](docs/screenshots/live-demo-preview.png)
-
-### 2. 🐙 Official GitHub Repository
-> Complete source code with automated continuous deployment to Netlify.
-
-![GrowwPulse GitHub Repository](docs/screenshots/github-repo-preview.png)
-
----
-
 ## 🌟 Key Features
 
 ### 1. ⚡ Live Real-Time Market Feed Engine
