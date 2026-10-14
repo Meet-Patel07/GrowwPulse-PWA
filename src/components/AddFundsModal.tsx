@@ -32,12 +32,17 @@ export const AddFundsModal: React.FC<AddFundsModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md">
-      <div className="relative w-full max-w-md bg-[#151922] border border-[#232936] rounded-3xl shadow-2xl p-5 sm:p-6 animate-in fade-in zoom-in-95 duration-150">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-md overflow-hidden">
+      <div className="relative w-full max-w-md bg-[#121620] border-t sm:border border-[#202736] rounded-t-3xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 animate-in slide-in-from-bottom sm:zoom-in-95 duration-200 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] sm:pb-6">
         
+        {/* Mobile Drag Indicator */}
+        <div className="sm:hidden -mt-2 mb-3 flex justify-center">
+          <div className="w-12 h-1.5 bg-[#2E374A] rounded-full" />
+        </div>
+
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-[#232936]">
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between pb-3 border-b border-[#202736]">
+          <div className="flex items-center gap-2.5">
             <div className="p-2 rounded-xl bg-[#00D09C]/10 border border-[#00D09C]/30 text-[#00D09C]">
               <Wallet className="w-5 h-5" />
             </div>
@@ -48,37 +53,38 @@ export const AddFundsModal: React.FC<AddFundsModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-white hover:bg-[#232936] rounded-xl transition-all"
+            className="p-1.5 text-slate-400 hover:text-white hover:bg-[#202736] rounded-xl transition-all"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Current Balance Hero */}
-        <div className="my-5 p-4 bg-[#0B0E14] rounded-2xl border border-[#232936] text-center">
+        <div className="my-5 p-4 bg-[#0B0E14] rounded-2xl border border-[#202736] text-center">
           <span className="text-xs text-slate-400 uppercase font-semibold">Available Paper Balance</span>
           <div className="font-mono text-3xl font-black text-white mt-1">
-            ₹{currentBalance.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            ₹{currentBalance.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
           </div>
-          <p className="text-[11px] text-emerald-400 mt-1 font-medium">Ready for real-time stock executions</p>
+          <div className="flex items-center justify-center gap-1 mt-1 text-[11px] text-[#00D09C] font-semibold">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Virtual Capital Ready for Trading</span>
+          </div>
         </div>
 
-        {/* Quick Deposit Amount Chips */}
+        {/* Quick Add Chips */}
         <div>
-          <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-2">
-            Quick Add Paper Funds
+          <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
+            Quick Add Funds
           </label>
-          <div className="grid grid-cols-2 gap-2">
-            {[25000, 50000, 100000, 500000].map((amt) => (
+          <div className="grid grid-cols-3 gap-2">
+            {[25000, 50000, 100000, 200000, 500000, 1000000].map((amt) => (
               <button
                 key={amt}
                 onClick={() => handleDeposit(amt)}
-                className="p-3 bg-[#1C2230] hover:bg-[#252E40] border border-[#232936] hover:border-[#00D09C]/50 rounded-2xl text-left transition-all group"
+                className="py-2.5 px-2 bg-[#0B0E14] hover:bg-[#181E2B] border border-[#202736] hover:border-[#00D09C]/50 rounded-xl text-xs font-bold text-white transition-all active:scale-95 flex items-center justify-center gap-1"
               >
-                <div className="font-mono text-sm font-bold text-white group-hover:text-[#00D09C]">
-                  + ₹{amt.toLocaleString('en-IN')}
-                </div>
-                <div className="text-[10px] text-slate-400 mt-0.5">Instant Deposit</div>
+                <Plus className="w-3.5 h-3.5 text-[#00D09C]" />
+                <span>₹{(amt / 1000).toFixed(0)}k</span>
               </button>
             ))}
           </div>
@@ -86,57 +92,62 @@ export const AddFundsModal: React.FC<AddFundsModalProps> = ({
 
         {/* Custom Amount Form */}
         <div className="mt-4">
-          <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block mb-1">
-            Custom Amount (₹)
+          <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">
+            Custom Amount
           </label>
-          <div className="flex items-center gap-2">
-            <input
-              type="number"
-              min="1000"
-              step="5000"
-              value={customAmount}
-              onChange={(e) => setCustomAmount(Number(e.target.value))}
-              className="flex-1 px-4 py-2.5 bg-[#0B0E14] border border-[#232936] focus:border-[#00D09C] rounded-xl text-white font-mono text-sm font-bold"
-            />
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <span className="absolute left-3.5 top-2.5 text-xs text-slate-500 font-bold">₹</span>
+              <input
+                type="number"
+                step="5000"
+                value={customAmount || ''}
+                onChange={(e) => setCustomAmount(parseInt(e.target.value) || 0)}
+                className="w-full pl-8 pr-3 py-2 bg-[#0B0E14] border border-[#202736] focus:border-[#00D09C] rounded-xl text-white font-mono text-sm font-bold"
+              />
+            </div>
             <button
               onClick={() => handleDeposit(customAmount)}
-              className="px-5 py-2.5 bg-[#00D09C] hover:bg-[#10E7B0] text-black font-extrabold text-xs rounded-xl shadow-md transition-all"
+              className="px-4 py-2 bg-[#00D09C] hover:bg-[#10E7B0] text-black text-xs font-extrabold rounded-xl transition-all shadow-md active:scale-95"
             >
-              Add Cash
+              Deposit
             </button>
           </div>
         </div>
 
-        {/* Reset All Data Section */}
-        <div className="mt-6 pt-4 border-t border-[#232936]">
+        {/* Reset All Trading Simulation Data */}
+        <div className="mt-6 pt-4 border-t border-[#202736] flex items-center justify-between">
+          <div className="text-left">
+            <div className="text-xs font-bold text-slate-300">Reset Simulator</div>
+            <div className="text-[10px] text-slate-500">Restore default ₹5 Lakh & clear orders</div>
+          </div>
+
           {!showResetConfirm ? (
             <button
               onClick={() => setShowResetConfirm(true)}
-              className="w-full flex items-center justify-center gap-2 py-2 text-xs font-semibold text-slate-400 hover:text-red-400 transition-colors"
+              className="flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-slate-400 hover:text-red-400 bg-[#0B0E14] hover:bg-red-500/10 border border-[#202736] hover:border-red-500/30 rounded-xl transition-all"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span>Reset Portfolio & History to Factory Default</span>
+              <span>Reset</span>
             </button>
           ) : (
-            <div className="p-3 bg-red-950/30 border border-red-900/50 rounded-2xl space-y-2 text-center">
-              <p className="text-xs text-red-300 font-medium">Are you sure? This will reset all holdings and orders.</p>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setShowResetConfirm(false)}
-                  className="flex-1 py-1.5 bg-[#232936] text-xs font-semibold text-slate-300 rounded-xl"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => {
-                    onResetData();
-                    onClose();
-                  }}
-                  className="flex-1 py-1.5 bg-red-600 hover:bg-red-500 text-xs font-bold text-white rounded-xl"
-                >
-                  Confirm Reset
-                </button>
-              </div>
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => {
+                  onResetData();
+                  setShowResetConfirm(false);
+                  onClose();
+                }}
+                className="px-3 py-1 text-xs font-bold bg-red-600 hover:bg-red-500 text-white rounded-lg transition-all"
+              >
+                Confirm Reset
+              </button>
+              <button
+                onClick={() => setShowResetConfirm(false)}
+                className="px-2 py-1 text-xs font-semibold text-slate-400 hover:text-white"
+              >
+                Cancel
+              </button>
             </div>
           )}
         </div>

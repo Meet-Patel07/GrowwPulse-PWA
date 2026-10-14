@@ -51,23 +51,31 @@ export const StockDetailModal: React.FC<StockDetailModalProps> = ({
   const candles = stock.candles[selectedTimeframe] || stock.candles['1D'];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
-      <div className="relative w-full max-w-4xl bg-[#0B0E14] border border-[#232936] rounded-3xl shadow-2xl my-auto max-h-[92vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-md overflow-hidden">
+      <div className="relative w-full max-w-4xl bg-[#0B0E14] border-t sm:border border-[#232936] rounded-t-3xl sm:rounded-3xl shadow-2xl max-h-[92vh] flex flex-col overflow-hidden animate-in slide-in-from-bottom sm:zoom-in-95 duration-200">
         
+        {/* Mobile Drag Indicator Pill */}
+        <div className="sm:hidden pt-3 pb-1 flex justify-center bg-[#151922]">
+          <div className="w-12 h-1.5 bg-[#2E374A] rounded-full" />
+        </div>
+
         {/* Top Navbar */}
-        <div className="sticky top-0 z-20 flex items-center justify-between px-5 py-4 bg-[#151922]/95 backdrop-blur-md border-b border-[#232936]">
+        <div className="sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6 py-3.5 bg-[#151922]/95 backdrop-blur-md border-b border-[#232936]">
           <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-[#1C2333] border border-[#2B354D] flex items-center justify-center font-bold text-xs text-white">
+              {stock.symbol.slice(0, 2)}
+            </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-lg sm:text-xl font-extrabold text-white">{stock.symbol}</h2>
-                <span className="text-[11px] px-2 py-0.5 rounded-md bg-[#232936] text-slate-300 font-semibold">
+                <h2 className="text-base sm:text-xl font-extrabold text-white">{stock.symbol}</h2>
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#232936] text-slate-300 font-semibold">
                   NSE
                 </span>
-                <span className="text-[11px] px-2 py-0.5 rounded-md bg-[#00D09C]/10 text-[#00D09C] border border-[#00D09C]/30 font-semibold">
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#00D09C]/10 text-[#00D09C] border border-[#00D09C]/30 font-semibold">
                   {stock.sector}
                 </span>
               </div>
-              <p className="text-xs text-slate-400 mt-0.5">{stock.name}</p>
+              <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5">{stock.name}</p>
             </div>
           </div>
 
@@ -322,7 +330,7 @@ export const StockDetailModal: React.FC<StockDetailModalProps> = ({
         </div>
 
         {/* Sticky Action Footer (BUY & SELL Buttons) */}
-        <div className="sticky bottom-0 z-20 flex items-center justify-between gap-3 px-5 py-4 bg-[#151922]/95 backdrop-blur-md border-t border-[#232936]">
+        <div className="sticky bottom-0 z-20 flex items-center justify-between gap-3 px-4 sm:px-6 py-3.5 sm:py-4 bg-[#151922]/95 backdrop-blur-md border-t border-[#232936] pb-[calc(1rem+env(safe-area-inset-bottom,0px))] sm:pb-4">
           <div className="hidden xs:block">
             <div className="text-[11px] text-slate-400 font-medium">Market Price</div>
             <div className="font-mono text-base font-bold text-white">
