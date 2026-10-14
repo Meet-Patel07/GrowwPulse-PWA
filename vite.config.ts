@@ -3,6 +3,22 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  server: {
+    proxy: {
+      '/api/market': {
+        target: 'https://query1.finance.yahoo.com',
+        changeOrigin: true,
+        rewrite: (path) => {
+          const match = path.match(/symbol=([^&]+)/);
+          const symbol = match ? decodeURIComponent(match[1]) : '^NSEI';
+          return `/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=1d`;
+        },
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+        },
+      },
+    },
+  },
   plugins: [
     react(),
     VitePWA({

@@ -1,8 +1,9 @@
 import { Stock, MarketIndex, PriceAlert } from '../types/market';
 import { INITIAL_STOCKS, INITIAL_INDICES } from '../data/mockStocks';
 import { soundEffects } from './soundEffects';
+import { fetchAllLiveMarketQuotes, RealQuote } from './realMarketApi';
 
-type MarketListener = (data: { stocks: Stock[]; indices: MarketIndex[] }) => void;
+type MarketListener = (data: { stocks: Stock[]; indices: MarketIndex[]; isRealApiConnected: boolean }) => void;
 type AlertTriggerListener = (alert: PriceAlert, currentPrice: number) => void;
 
 class MarketSimulationEngine {
@@ -11,11 +12,14 @@ class MarketSimulationEngine {
   private listeners: Set<MarketListener> = new Set();
   private alertListeners: Set<AlertTriggerListener> = new Set();
   private intervalId: ReturnType<typeof setInterval> | null = null;
+  private realApiIntervalId: ReturnType<typeof setInterval> | null = null;
   private isLive: boolean = true;
+  private isRealApiConnected: boolean = false;
   private activeAlerts: PriceAlert[] = [];
 
   constructor() {
     this.startEngine();
+    this.syncRealMarketQuotes();
   }
 
   public setAlerts(alerts: PriceAlert[]) {
@@ -25,7 +29,7 @@ class MarketSimulationEngine {
   public subscribe(listener: MarketListener): () => void {
     this.listeners.add(listener);
     // Emit immediate current state
-    listener({ stocks: this.stocks, indices: this.indices });
+    listener({ stocks: this.stocks, indices: this.indices, isRealApiConnected: this.isRealApiConnected });
     return () => {
       this.listeners.delete(listener);
     };
@@ -52,8 +56,12 @@ class MarketSimulationEngine {
     return this.isLive;
   }
 
+  public getIsRealApiConnected(): boolean {
+    return this.isRealApiConnected;
+  }
+
   public getCurrentState() {
-    return { stocks: this.stocks, indices: this.indices };
+    return { stocks: this.stocks, indices: this.indices, isRealApiConnected: this.isRealApiConnected };
   }
 
   private startEngine() {
@@ -62,6 +70,13 @@ class MarketSimulationEngine {
       if (!this.isLive) return;
       this.tick();
     }, 1600);
+
+    // Sync real market quotes every 20 seconds
+    if (this.realApiIntervalId) clearInterval(this.realApiIntervalId);
+    this.realApiIntervalId = setInterval(() => {
+      if (!this.isLive) return;
+      this.syncRealMarketQuotes();
+    }, 20000);
   }
 
   private stopEngine() {
@@ -69,11 +84,83 @@ class MarketSimulationEngine {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
+    if (this.realApiIntervalId) {
+      clearInterval(this.realApiIntervalId);
+      this.realApiIntervalId = null;
+    }
+  }
+
+  // Fetch real market quotes from live NSE / BSE exchange API
+  public async syncRealMarketQuotes() {
+    try {
+      const liveQuotes = await fetchAllLiveMarketQuotes();
+      const keys = Object.keys(liveQuotes);
+      if (keys.length === 0) return;
+
+      this.isRealApiConnected = true;
+
+      // Update Stocks with Real Market Data
+      this.stocks = this.stocks.map(stock => {
+        const quote = liveQuotes[stock.id];
+        if (!quote || quote.price <= 0) return stock;
+
+        const prevPrice = stock.currentPrice;
+        const newPrice = quote.price;
+        const direction: 'up' | 'down' | 'neutral' = newPrice > prevPrice ? 'up' : newPrice < prevPrice ? 'down' : 'neutral';
+
+        // Update 1D candles with real high/low/close
+        const dayCandles = stock.candles['1D'];
+        if (dayCandles && dayCandles.length > 0) {
+          const lastCandle = { ...dayCandles[dayCandles.length - 1] };
+          lastCandle.close = newPrice;
+          lastCandle.high = Math.max(lastCandle.high, quote.high, newPrice);
+          lastCandle.low = Math.min(lastCandle.low, quote.low, newPrice);
+          dayCandles[dayCandles.length - 1] = lastCandle;
+        }
+
+        // Check alerts
+        this.checkAlerts(stock.id, newPrice);
+
+        return {
+          ...stock,
+          currentPrice: newPrice,
+          change: quote.change,
+          percentChange: quote.percentChange,
+          lastTickDirection: direction,
+          fundamentals: {
+            ...stock.fundamentals,
+            todayHigh: Math.max(stock.fundamentals.todayHigh, quote.high),
+            todayLow: Math.min(stock.fundamentals.todayLow, quote.low),
+            prevClose: quote.prevClose,
+            volume: Math.max(stock.fundamentals.volume, quote.volume),
+          },
+        };
+      });
+
+      // Update Indices with Real Market Data
+      this.indices = this.indices.map(idx => {
+        const quote = liveQuotes[idx.symbol];
+        if (!quote || quote.price <= 0) return idx;
+
+        const sparkline = [...idx.sparkline.slice(1), quote.price];
+        return {
+          ...idx,
+          currentPrice: quote.price,
+          change: quote.change,
+          percentChange: quote.percentChange,
+          sparkline,
+        };
+      });
+
+      this.notifyListeners();
+    } catch {
+      // Keep running with current values
+    }
   }
 
   private tick() {
-    // 1. Pick 3 to 6 random stocks to tick this cycle (simulating real exchange traffic)
-    const countToUpdate = Math.floor(Math.random() * 4) + 3;
+    // Pick 3 to 5 random stocks to apply fine real-time micro-fluctuations (±0.03%)
+    const countToUpdate = Math.floor(Math.random() * 3) + 2;
     const indicesToPick = new Set<number>();
     while (indicesToPick.size < countToUpdate && indicesToPick.size < this.stocks.length) {
       indicesToPick.add(Math.floor(Math.random() * this.stocks.length));
@@ -83,8 +170,8 @@ class MarketSimulationEngine {
       const stock = this.stocks[idx];
       const prevPrice = stock.currentPrice;
 
-      // Realistic stochastic micro-movement (-0.35% to +0.38%)
-      const deltaPercent = (Math.random() - 0.485) * 0.005;
+      // Realistic stochastic micro-movement (-0.15% to +0.16%)
+      const deltaPercent = (Math.random() - 0.49) * 0.003;
       const rawNewPrice = stock.currentPrice * (1 + deltaPercent);
       const newPrice = Number(rawNewPrice.toFixed(2));
 
@@ -94,10 +181,9 @@ class MarketSimulationEngine {
       const change = Number((newPrice - stock.fundamentals.prevClose).toFixed(2));
       const percentChange = Number(((change / stock.fundamentals.prevClose) * 100).toFixed(2));
 
-      // Update High/Low
       const todayHigh = Math.max(stock.fundamentals.todayHigh, newPrice);
       const todayLow = Math.min(stock.fundamentals.todayLow, newPrice);
-      const volume = stock.fundamentals.volume + Math.floor(Math.random() * 350 + 50);
+      const volume = stock.fundamentals.volume + Math.floor(Math.random() * 250 + 20);
 
       // Update last candle in 1D timeframe
       const dayCandles = stock.candles['1D'];
@@ -106,26 +192,9 @@ class MarketSimulationEngine {
         lastCandle.close = newPrice;
         lastCandle.high = Math.max(lastCandle.high, newPrice);
         lastCandle.low = Math.min(lastCandle.low, newPrice);
-        lastCandle.volume += Math.floor(Math.random() * 50);
+        lastCandle.volume += Math.floor(Math.random() * 30);
         dayCandles[dayCandles.length - 1] = lastCandle;
       }
-
-      // Update Order Book Depth
-      const bidDiff = direction === 'up' ? 0.15 : -0.15;
-      const bids = stock.marketDepth.bids.map(b => ({
-        ...b,
-        price: Number((b.price + bidDiff * 0.1).toFixed(2)),
-        quantity: Math.max(500, b.quantity + Math.floor((Math.random() - 0.48) * 200)),
-      }));
-      const asks = stock.marketDepth.asks.map(a => ({
-        ...a,
-        price: Number((a.price + bidDiff * 0.1).toFixed(2)),
-        quantity: Math.max(500, a.quantity + Math.floor((Math.random() - 0.48) * 200)),
-      }));
-
-      const buyTotal = bids.reduce((acc, curr) => acc + curr.quantity, 0);
-      const sellTotal = asks.reduce((acc, curr) => acc + curr.quantity, 0);
-      const totalDepth = buyTotal + sellTotal;
 
       this.stocks[idx] = {
         ...stock,
@@ -139,39 +208,20 @@ class MarketSimulationEngine {
           todayLow,
           volume,
         },
-        marketDepth: {
-          buyTotal,
-          sellTotal,
-          buyPercentage: Math.round((buyTotal / totalDepth) * 100),
-          sellPercentage: Math.round((sellTotal / totalDepth) * 100),
-          bids,
-          asks,
-        },
       };
 
-      // Check Alerts for this stock
       this.checkAlerts(stock.id, newPrice);
     });
 
-    // 2. Micro-tick Indices based on aggregate trend
-    this.indices = this.indices.map(idx => {
-      const idxDelta = (Math.random() - 0.48) * 0.0015;
-      const newPrice = Number((idx.currentPrice * (1 + idxDelta)).toFixed(2));
-      const change = Number((idx.change + (newPrice - idx.currentPrice)).toFixed(2));
-      const percentChange = Number(((change / (newPrice - change)) * 100).toFixed(2));
-      const sparkline = [...idx.sparkline.slice(1), newPrice];
+    this.notifyListeners();
+  }
 
-      return {
-        ...idx,
-        currentPrice: newPrice,
-        change,
-        percentChange,
-        sparkline,
-      };
-    });
-
-    // 3. Notify subscribers
-    const payload = { stocks: [...this.stocks], indices: [...this.indices] };
+  private notifyListeners() {
+    const payload = {
+      stocks: [...this.stocks],
+      indices: [...this.indices],
+      isRealApiConnected: this.isRealApiConnected,
+    };
     this.listeners.forEach(fn => fn(payload));
   }
 

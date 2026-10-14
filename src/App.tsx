@@ -23,6 +23,7 @@ export function App() {
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [indices, setIndices] = useState<MarketIndex[]>([]);
   const [isLive, setIsLive] = useState<boolean>(true);
+  const [isRealApiConnected, setIsRealApiConnected] = useState<boolean>(false);
 
   // User state
   const [balance, setBalance] = useState<number>(() => storage.getBalance());
@@ -46,9 +47,10 @@ export function App() {
   // 1. Subscribe to Real-Time Market Feed
   useEffect(() => {
     marketEngine.setAlerts(alerts);
-    const unsubscribeMarket = marketEngine.subscribe(({ stocks: newStocks, indices: newIndices }) => {
+    const unsubscribeMarket = marketEngine.subscribe(({ stocks: newStocks, indices: newIndices, isRealApiConnected: apiStatus }) => {
       setStocks(newStocks);
       setIndices(newIndices);
+      setIsRealApiConnected(apiStatus);
 
       // Dynamically recalculate user portfolio values based on live ticking prices!
       setHoldings((prevHoldings) => {
@@ -295,6 +297,7 @@ export function App() {
         unreadAlertsCount={unreadAlertsCount}
         onSearchClick={() => setIsSearchOpen(true)}
         isLive={isLive}
+        isRealApiConnected={isRealApiConnected}
         onToggleLive={() => setIsLive(marketEngine.toggleLive())}
         onSelectTab={setActiveTab}
         activeTab={activeTab}

@@ -21,6 +21,7 @@ interface HeaderProps {
   unreadAlertsCount: number;
   onSearchClick: () => void;
   isLive: boolean;
+  isRealApiConnected?: boolean;
   onToggleLive: () => void;
   onSelectTab: (tab: string) => void;
   activeTab: string;
@@ -33,6 +34,7 @@ export const Header: React.FC<HeaderProps> = ({
   unreadAlertsCount,
   onSearchClick,
   isLive,
+  isRealApiConnected = false,
   onToggleLive,
   onSelectTab,
   activeTab,
@@ -81,10 +83,10 @@ export const Header: React.FC<HeaderProps> = ({
                 </span>
               </div>
               <div className="hidden sm:flex items-center gap-1 text-[11px] text-slate-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#00D09C]"></span>
-                <span>NSE / BSE LIVE</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#00D09C] animate-pulse"></span>
+                <span className="text-emerald-400 font-semibold">{isRealApiConnected ? 'NSE / BSE LIVE API' : 'NSE / BSE LIVE'}</span>
                 <span className="text-slate-600">•</span>
-                <span className="text-emerald-400 font-medium">9:15 AM - 3:30 PM</span>
+                <span className="text-slate-400 font-medium">Real-Time Quotes</span>
               </div>
             </div>
           </div>
