@@ -1,92 +1,136 @@
-# 📈 GrowwPulse — Real-Time Stock Market & Trading OS (PWA)
+# 📈 GrowwPulse — Real-Time Indian Stock Market & Trading OS (PWA)
 
 <p align="center">
-  <img src="public/favicon.svg" alt="GrowwPulse Logo" width="80" height="80" />
+  <img src="public/favicon.svg" alt="GrowwPulse Logo" width="84" height="84" />
 </p>
 
 <p align="center">
-  <strong>A Next-Gen, Real-Time Indian Stock Market & Paper Trading Ecosystem inspired by Groww and Zerodha Kite.</strong><br>
-  Built as a Progressive Web App (PWA) with live stochastic exchange simulation, Web Audio synthesizer, and instant Netlify deployment.
+  <strong>A 1:1 High-Fidelity Official Groww Explore Replica & Risk-Free Paper Trading OS for Indian Equities.</strong><br>
+  Engineered with React 19, TypeScript, Tailwind CSS, live NSE/BSE real-time market feeds, mobile-native slide-up bottom sheets, and Progressive Web App (PWA) offline capabilities.
 </p>
 
 <p align="center">
-  <a href="https://growwpulsepwa.netlify.app"><img src="https://img.shields.io/badge/Live_Demo-growwpulsepwa.netlify.app-00D09C?style=for-the-badge&logo=netlify&logoColor=black" alt="Netlify Live Demo"></a>
+  <a href="https://growwpulsepwa.netlify.app"><img src="https://img.shields.io/badge/Live_App-growwpulsepwa.netlify.app-00D09C?style=for-the-badge&logo=netlify&logoColor=black" alt="Netlify Live Demo"></a>
   <a href="https://github.com/Meet-Patel07/GrowwPulse-PWA"><img src="https://img.shields.io/badge/GitHub-GrowwPulse--PWA-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repo"></a>
+  <a href="https://groww.in/stocks/user/explore"><img src="https://img.shields.io/badge/Reference_UI-Groww_Explore-00D09C?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Groww Reference"></a>
   <img src="https://img.shields.io/badge/PWA-Installable-10E7B0?style=for-the-badge&logo=pwa&logoColor=black" alt="PWA Ready">
   <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 19">
   <img src="https://img.shields.io/badge/Vite-Fast-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite">
-  <img src="https://img.shields.io/badge/Tailwind_CSS-Modern_UI-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-Modern_Dark_UI-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
 </p>
 
 ---
 
-## 🌐 Live URLs & Links
+## 🌐 Live Deployment & Repository Links
 
-- 🚀 **Live App (Netlify)**: [https://growwpulsepwa.netlify.app](https://growwpulsepwa.netlify.app)
-- 💻 **GitHub Repository**: [https://github.com/Meet-Patel07/GrowwPulse-PWA](https://github.com/Meet-Patel07/GrowwPulse-PWA)
-- 👨‍💻 **Developer**: [Meet Patel (@Meet-Patel07)](https://github.com/Meet-Patel07)
-
----
-
-## 🌟 Key Features
-
-### 1. ⚡ Live Real-Time Market Feed Engine
-- **Stochastic Brownian Motion Engine**: Simulates realistic NSE/BSE tick-by-tick market fluctuations every ~1.6 seconds.
-- **Micro-Tick Flash Cues**: Glowing green flash on price upticks and crimson red flash on downticks.
-- **Benchmark Indices**: Live NIFTY 50, SENSEX, BANK NIFTY, and NIFTY IT with fluctuating points, percentage changes, and sparklines.
-- **Live Stream Controls**: 1-click toggle to pause or resume live stream data anytime.
-
-### 2. 📊 Interactive Charts (Area & Candlestick Modes)
-- **Dual Mode Switching**: Toggle seamlessly between **Area Line Chart** (smooth gradient glow) and **Candlestick Chart** (Green/Red bodies with High/Low wicks).
-- **Multi-Timeframe Analysis**: `1D`, `1W`, `1M`, `1Y`, `5Y`, and `ALL`.
-- **Interactive Crosshairs & Hover Tooltip**: Hover or touch to inspect candle details (Open, High, Low, Close, Volume, and Time).
-
-### 3. 💼 Risk-Free Paper Trading & Portfolio Management
-- **₹5,00,000 Starter Virtual Capital**: Practice trading top Indian equities without risking capital.
-- **Flexible Order Types**: Execute **Market Orders** (instant) or **Limit Orders** (desired target price).
-- **Product Types**: **Delivery (CNC)** for long-term investments and **Intraday (MIS with 5x leverage)** for day trading.
-- **Dynamic Live Portfolio Valuation**: Real-time portfolio P&L updates continuously as stock prices tick.
-- **Celebration Effects**: Confetti burst animations and procedural audio chimes on successful order execution.
-
-### 4. 🔬 Level-5 Market Depth (Order Book)
-- Live **Buyers vs Sellers % Bar** (e.g. 58% Buy vs 42% Sell).
-- 5-level Bid vs Ask order depth breakdown displaying real-time quantities, order counts, and prices.
-
-### 5. 🧮 Groww-Style SIP & Wealth Calculator
-- Interactive sliders for monthly investment amount, expected return rate, and time horizon.
-- Compound Interest & Future Value calculation models.
-- **Dual-Arc Visual SVG Donut Chart** showing the exact ratio of Invested Capital vs Capital Gains.
-
-### 6. 🔔 Real-Time Price Target Alerts
-- Set custom price triggers (e.g., *Notify when RELIANCE crosses ₹3,000*).
-- Real-time in-app floating toast alerts and audio bell chime when targets are achieved.
-
-### 7. 📱 Progressive Web App (PWA) Superpowers
-- **Installable Native-Like App**: Prompts users to install GrowwPulse to their home screen on Android, iOS, or Desktop.
-- **Offline Capable**: Workbox and Service Worker precache static assets for lightning-fast loads.
-- **Mobile-First UX**: Sleek bottom navigation bar, touch-friendly controls, and safe-area inset support.
-
-### 8. 🔊 Web Audio API Procedural Synthesizer
-- Zero external MP3 downloads; sounds generated in real-time via the browser's native audio oscillator.
-- Uplifting major-triad Buy chime, crisp Sell tone, and tactile click feedback.
-- Mute/Unmute sound toggle directly in the header.
+- 🚀 **Live Production Application (Netlify)**: [https://growwpulsepwa.netlify.app](https://growwpulsepwa.netlify.app)
+- 💻 **Official GitHub Repository**: [https://github.com/Meet-Patel07/GrowwPulse-PWA](https://github.com/Meet-Patel07/GrowwPulse-PWA)
+- 🎯 **Official UI & Feature Reference**: [https://groww.in/stocks/user/explore](https://groww.in/stocks/user/explore)
+- 👨‍💻 **Architect & Developer**: [Meet Patel (@Meet-Patel07)](https://github.com/Meet-Patel07)
 
 ---
 
-## 🛠️ Tech Stack
+## ✨ What is GrowwPulse?
 
-- **Framework**: React 19 (TypeScript)
-- **Build Tool**: Vite 8
-- **Styling**: Tailwind CSS 3 (Custom OLED Dark Theme & Glassmorphism)
-- **Icons**: Lucide React
-- **Animations**: Canvas Confetti & CSS Micro-Interactions
-- **PWA & Offline**: Vite Plugin PWA & Workbox
-- **Audio**: Web Audio API Procedural Synthesizer
-- **Hosting**: Netlify CI/CD
+**GrowwPulse** is a cutting-edge, production-ready stock market trading simulation platform built to match the official **Groww Explore Page** (`groww.in/stocks/user/explore`) with **1:1 visual fidelity and interactive functionality**. 
+
+It empowers beginners, retail investors, and seasoned traders to practice real-world Indian equity trading (NSE/BSE) using **₹5,00,000 in virtual capital** with zero financial risk.
 
 ---
 
-## 🚀 Local Development Setup
+## 🌟 Key Features & 1:1 Groww Explore UI Replication
+
+### 1. 🧭 Groww Official Navigation Header
+- **Groww Branding**: Sleek Groww green leaf emblem with real-time pulsing connectivity dot.
+- **Product Sub-Navigation**: Quick tabs for `Stocks`, `Mutual Funds` (SIP Calculator), and `Groww Pay / UPI`.
+- **Search Groww Bar**: Search modal triggered via click or keyboard shortcut (`Ctrl + K` / `⌘K`).
+- **Terminal Mode Shortcut**: Pro-trader terminal button for quick analysis.
+- **Virtual Cash Chip**: Shows live paper balance (`₹5,00,000`) with quick `+ Add` funds trigger.
+- **User Profile Circle**: Personalized avatar (`M` for Meet) with online status indicator.
+
+### 2. 📊 Live Benchmark Indices Banner
+- Real-time live quotes for **NIFTY 50**, **SENSEX**, **BANK NIFTY**, and **NIFTY IT**.
+- Dynamic price updates, points change, percentage moves, and color-coded SVG sparkline curves.
+- Groww-style quick-action links on each card: **Option Chain** and **Charts**.
+- Smooth horizontal touch-scroll on mobile devices with zero visible scrollbar.
+
+### 3. ⚡ Groww Quick Product Feature Row
+Signature circular product icons matching Groww's explore dashboard:
+- **F&O**: Futures & Options terminal.
+- **IPO**: Active & upcoming IPOs badge (`3 Open`).
+- **Intraday**: High momentum momentum stocks with 5x leverage margin.
+- **All Stocks**: Complete NSE equity universe screener.
+- **ETFs**: Exchange Traded Funds (Nifty BeES, Gold BeES).
+- **MTF**: Pay Later Margin Trading Facility with 4x buying power.
+
+### 4. 🔥 "Most Bought on Groww" Carousel
+- Live cards spotlighting the most heavily traded companies in the last 24 hours (e.g., Tata Motors, Reliance, Infosys, HDFC Bank).
+- Branded company avatar initials, live tick prices, and 1D percentage gain/loss tags.
+
+### 5. 📈 Top Movers by Market Cap
+- **Market Cap Filters**: One-click toggles between `Large Cap`, `Mid Cap`, and `Small Cap`.
+- **Gainers vs Losers Switcher**: Toggle between `Top Gainers` (Green) and `Top Losers` (Crimson Red).
+- Dynamic sorting automatically reflects the highest intraday movers in the selected category.
+
+### 6. 🏢 Top Sectors Overview
+- Real-time sectoral indices performance:
+  - **Banking & Finance** (*BANK NIFTY*)
+  - **Information Tech** (*NIFTY IT*)
+  - **Automobiles** (*NIFTY AUTO*)
+  - **Energy & Power** (*NIFTY ENERGY*)
+  - **FMCG & Retail** (*NIFTY FMCG*)
+  - **Pharma & Healthcare** (*NIFTY PHARMA*)
+- Clicking any sector instantly filters the equity universe below.
+
+### 7. 📋 Screener with Grid vs Table List View
+- **Dual View Mode**: Switch seamlessly between modern **Card Grid View** and official **Groww Table List View** (Company, Sector, Market Price, 1D Change, Quick Buy).
+- **Sort Options**: Sort by `Most Popular`, `Highest Gainers`, `Price: High to Low`, and `Price: Low to High`.
+- **Micro-Tick Flash Animations**: Subtle green flash on price uptick, red flash on downtick.
+
+### 8. 📱 Native Mobile PWA & Slide-up Bottom Sheets
+- **Slide-up Bottom Sheets**: On mobile devices, modals (Stock Details, Order Execution, Add Funds, Alerts) slide up smoothly from the bottom just like native iOS/Android apps.
+- **Top Drag Handle Pill**: Tactile rounded drag handle (`w-12 h-1.5`) for intuitive mobile ergonomics.
+- **Quick Quantity Chips**: Order window includes instant quantity selectors (`+1`, `+5`, `+10`, `+25`, `+50`, `+100`).
+- **Safe-Area Inset Support**: Full compatibility with phone notches and navigation home bars (`pb-safe`).
+- **Mobile Bottom Navigation Bar**: Groww-styled bottom menu (`Explore`, `Holdings`, `Watchlist`, `Orders`, `SIP Calc`) with glowing active indicators.
+
+### 9. 💼 Complete Paper Trading & Live Portfolio Engine
+- **Starter Capital**: ₹5,00,000 in virtual funds with instant refill and reset capability.
+- **Order Types**: **Market Orders** (executed at live price) and **Limit Orders** (executed at user-specified trigger).
+- **Product Types**: **Delivery (CNC)** for long-term holding and **Intraday (MIS with 5x leverage)**.
+- **Live Dynamic Portfolio Valuation**: Watch your invested capital, current valuation, and total P&L update in real-time as stock prices tick.
+- **Celebration Effects**: Confetti bursts and Web Audio API synthesized chimes upon successful order execution.
+
+### 10. 🔬 Level-5 Market Depth (Order Book)
+- Live **Buyers vs Sellers % Bar** (e.g., 58% Buy vs 42% Sell).
+- 5-level Bid vs Ask breakdown showing real-time quantities, order counts, and prices.
+
+### 11. 🧮 Groww SIP & Wealth Calculator
+- Interactive sliders for monthly investment amount, expected annual return rate, and time horizon (years).
+- Dual-arc SVG donut chart visualizing Total Invested vs Estimated Wealth Gains.
+
+### 12. 🔔 Real-Time Price Target Alerts
+- Set custom breakout triggers (e.g., *Notify when RELIANCE crosses ₹3,000*).
+- Real-time in-app notification toasts and audio chimes when breakout levels are achieved.
+
+---
+
+## 🛠️ Tech Stack & Architecture
+
+| Layer | Technology | Details |
+| :--- | :--- | :--- |
+| **Frontend Framework** | **React 19** | TypeScript, Hooks, Concurrent Rendering |
+| **Bundler & Tooling** | **Vite 8** | Sub-second HMR, optimized production chunks |
+| **Styling & Design System** | **Tailwind CSS 3** | OLED Dark Palette (`#0B0E14`), Glassmorphism, Micro-Animations |
+| **Icons** | **Lucide React** | Clean, accessible vector icons |
+| **Audio Synthesizer** | **Web Audio API** | 100% procedural oscillator sound generation (zero MP3 files) |
+| **Visual Effects** | **Canvas Confetti** | Order execution celebrations |
+| **PWA & Offline** | **Vite Plugin PWA & Workbox** | Service worker caching, Web App Manifest, Install Prompt |
+| **Hosting & CI/CD** | **Netlify** | Automatic builds on every git commit to `main` |
+
+---
+
+## 🚀 Getting Started Locally
 
 ### 1. Clone the repository:
 ```bash
@@ -109,16 +153,17 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 ```bash
 npm run build
 ```
+Generates the optimized production build in the `dist` folder.
 
 ---
 
-## 🌐 Continuous Deployment (Netlify)
+## 🌐 Netlify CI/CD Deployment
 
-This project includes zero-config deployment configurations:
-- `netlify.toml`: Defines the build command (`npm run build`), publish directory (`dist`), and headers.
-- `public/_redirects`: Handles Single Page Application (SPA) routing for clean URLs.
+This repository is pre-configured for automated Netlify deployment:
+- `netlify.toml`: Automates production build (`npm run build`), publish directory (`dist`), and security headers.
+- `public/_redirects`: Provides SPA fallback routing (`/* /index.html 200`).
 
-Every time you push commits to GitHub `main`, Netlify automatically re-builds and deploys the latest version!
+Every commit pushed to the `main` branch automatically triggers a fresh build and live deployment on [https://growwpulsepwa.netlify.app](https://growwpulsepwa.netlify.app).
 
 ---
 
@@ -127,5 +172,5 @@ Every time you push commits to GitHub `main`, Netlify automatically re-builds an
 This project is licensed under the [MIT License](LICENSE).
 
 <p align="center">
-  Made with ❤️ by <a href="https://github.com/Meet-Patel07">Meet Patel</a>
+  Crafted with ❤️ by <a href="https://github.com/Meet-Patel07">Meet Patel</a>
 </p>
