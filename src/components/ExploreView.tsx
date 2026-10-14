@@ -26,7 +26,20 @@ export const ExploreView: React.FC<ExploreViewProps> = ({
   const [selectedSector, setSelectedSector] = useState<string>('ALL');
   const [marketMoverTab, setMarketMoverTab] = useState<'GAINERS' | 'LOSERS'>('GAINERS');
 
-  const sectors = ['ALL', 'Information Tech', 'Banking & Finance', 'Automobiles', 'Energy & Retail', 'Consumer Internet'];
+  const sectors = [
+    'ALL',
+    'Banking & Finance',
+    'Information Tech',
+    'Automobiles',
+    'Energy & Power',
+    'FMCG & Retail',
+    'Consumer Internet',
+    'Metals & Mining',
+    'Pharma & Health',
+    'Infrastructure',
+    'Telecom & Defense',
+    'Chemicals & Paints',
+  ];
 
   // Filtered by sector
   const filteredStocks = selectedSector === 'ALL'

@@ -66,17 +66,18 @@ class MarketSimulationEngine {
 
   private startEngine() {
     if (this.intervalId) clearInterval(this.intervalId);
+    // High-speed sub-second tick heartbeat (750ms)
     this.intervalId = setInterval(() => {
       if (!this.isLive) return;
       this.tick();
-    }, 1600);
+    }, 750);
 
-    // Sync real market quotes every 20 seconds
+    // Fast Real API sync every 10 seconds
     if (this.realApiIntervalId) clearInterval(this.realApiIntervalId);
     this.realApiIntervalId = setInterval(() => {
       if (!this.isLive) return;
       this.syncRealMarketQuotes();
-    }, 20000);
+    }, 10000);
   }
 
   private stopEngine() {
@@ -118,7 +119,6 @@ class MarketSimulationEngine {
           dayCandles[dayCandles.length - 1] = lastCandle;
         }
 
-        // Check alerts
         this.checkAlerts(stock.id, newPrice);
 
         return {
@@ -154,13 +154,13 @@ class MarketSimulationEngine {
 
       this.notifyListeners();
     } catch {
-      // Keep running with current values
+      // Continue running
     }
   }
 
   private tick() {
-    // Pick 3 to 5 random stocks to apply fine real-time micro-fluctuations (±0.03%)
-    const countToUpdate = Math.floor(Math.random() * 3) + 2;
+    // Pick 12 to 20 stocks to tick simultaneously on every sub-second pulse
+    const countToUpdate = Math.floor(Math.random() * 9) + 12;
     const indicesToPick = new Set<number>();
     while (indicesToPick.size < countToUpdate && indicesToPick.size < this.stocks.length) {
       indicesToPick.add(Math.floor(Math.random() * this.stocks.length));
@@ -170,8 +170,8 @@ class MarketSimulationEngine {
       const stock = this.stocks[idx];
       const prevPrice = stock.currentPrice;
 
-      // Realistic stochastic micro-movement (-0.15% to +0.16%)
-      const deltaPercent = (Math.random() - 0.49) * 0.003;
+      // Realistic stochastic high-frequency micro-movement (-0.12% to +0.13%)
+      const deltaPercent = (Math.random() - 0.492) * 0.0025;
       const rawNewPrice = stock.currentPrice * (1 + deltaPercent);
       const newPrice = Number(rawNewPrice.toFixed(2));
 
@@ -183,7 +183,7 @@ class MarketSimulationEngine {
 
       const todayHigh = Math.max(stock.fundamentals.todayHigh, newPrice);
       const todayLow = Math.min(stock.fundamentals.todayLow, newPrice);
-      const volume = stock.fundamentals.volume + Math.floor(Math.random() * 250 + 20);
+      const volume = stock.fundamentals.volume + Math.floor(Math.random() * 200 + 15);
 
       // Update last candle in 1D timeframe
       const dayCandles = stock.candles['1D'];
@@ -192,7 +192,7 @@ class MarketSimulationEngine {
         lastCandle.close = newPrice;
         lastCandle.high = Math.max(lastCandle.high, newPrice);
         lastCandle.low = Math.min(lastCandle.low, newPrice);
-        lastCandle.volume += Math.floor(Math.random() * 30);
+        lastCandle.volume += Math.floor(Math.random() * 25);
         dayCandles[dayCandles.length - 1] = lastCandle;
       }
 
@@ -211,6 +211,23 @@ class MarketSimulationEngine {
       };
 
       this.checkAlerts(stock.id, newPrice);
+    });
+
+    // Also micro-tick benchmark indices every cycle
+    this.indices = this.indices.map(idx => {
+      const delta = (Math.random() - 0.495) * 0.0008;
+      const newPrice = Number((idx.currentPrice * (1 + delta)).toFixed(2));
+      const change = Number((idx.change + (newPrice - idx.currentPrice)).toFixed(2));
+      const percentChange = Number(((change / (newPrice - change)) * 100).toFixed(2));
+      const sparkline = [...idx.sparkline.slice(1), newPrice];
+
+      return {
+        ...idx,
+        currentPrice: newPrice,
+        change,
+        percentChange,
+        sparkline,
+      };
     });
 
     this.notifyListeners();

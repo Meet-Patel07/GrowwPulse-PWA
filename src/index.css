@@ -67,11 +67,11 @@ body {
 }
 
 .flash-up {
-  animation: flashGreen 0.7s ease-out;
+  animation: flashGreen 0.45s ease-out;
 }
 
 .flash-down {
-  animation: flashRed 0.7s ease-out;
+  animation: flashRed 0.45s ease-out;
 }
 
 /* Safe area padding for mobile PWA bottom navigation */

@@ -1,4 +1,4 @@
-// Real Market API Service for Live NSE / BSE Quotes
+// Real Market API Service for Live NSE / BSE Quotes (48 Companies + 4 Indices)
 
 export interface RealQuote {
   symbol: string;
@@ -19,19 +19,73 @@ export const TICKER_MAP: { [key: string]: { yahooSymbol: string; name: string } 
   'BANK NIFTY': { yahooSymbol: '^NSEBANK', name: 'BANK NIFTY' },
   'NIFTY IT': { yahooSymbol: '^CNXIT', name: 'NIFTY IT' },
 
-  // Equities
-  'reliance': { yahooSymbol: 'RELIANCE.NS', name: 'RELIANCE' },
+  // Banking & Finance
+  'hdfcbank': { yahooSymbol: 'HDFCBANK.NS', name: 'HDFC Bank' },
+  'icicibank': { yahooSymbol: 'ICICIBANK.NS', name: 'ICICI Bank' },
+  'sbin': { yahooSymbol: 'SBIN.NS', name: 'State Bank of India' },
+  'kotakbank': { yahooSymbol: 'KOTAKBANK.NS', name: 'Kotak Bank' },
+  'axisbank': { yahooSymbol: 'AXISBANK.NS', name: 'Axis Bank' },
+  'bajfinance': { yahooSymbol: 'BAJFINANCE.NS', name: 'Bajaj Finance' },
+  'bajajfinsv': { yahooSymbol: 'BAJAJFINSV.NS', name: 'Bajaj Finserv' },
+
+  // IT & Tech
   'tcs': { yahooSymbol: 'TCS.NS', name: 'TCS' },
-  'hdfcbank': { yahooSymbol: 'HDFCBANK.NS', name: 'HDFCBANK' },
-  'tatamotors': { yahooSymbol: 'TMPV.NS', name: 'TATAMOTORS' },
-  'infy': { yahooSymbol: 'INFY.NS', name: 'INFY' },
-  'zomato': { yahooSymbol: 'ETERNAL.NS', name: 'ZOMATO' },
+  'infy': { yahooSymbol: 'INFY.NS', name: 'Infosys' },
+  'wipro': { yahooSymbol: 'WIPRO.NS', name: 'Wipro' },
+  'hcltech': { yahooSymbol: 'HCLTECH.NS', name: 'HCL Tech' },
+  'techm': { yahooSymbol: 'TECHM.NS', name: 'Tech Mahindra' },
+
+  // Automobiles
+  'tatamotors': { yahooSymbol: 'TMPV.NS', name: 'Tata Motors' },
+  'maruti': { yahooSymbol: 'MARUTI.NS', name: 'Maruti Suzuki' },
+  'mm': { yahooSymbol: 'M&M.NS', name: 'Mahindra & Mahindra' },
+  'bajajauto': { yahooSymbol: 'BAJAJ-AUTO.NS', name: 'Bajaj Auto' },
+  'eichermot': { yahooSymbol: 'EICHERMOT.NS', name: 'Eicher Motors' },
+
+  // Energy & Power
+  'reliance': { yahooSymbol: 'RELIANCE.NS', name: 'Reliance' },
+  'ntpc': { yahooSymbol: 'NTPC.NS', name: 'NTPC' },
+  'powergrid': { yahooSymbol: 'POWERGRID.NS', name: 'Power Grid' },
+  'coalindia': { yahooSymbol: 'COALINDIA.NS', name: 'Coal India' },
+  'ongc': { yahooSymbol: 'ONGC.NS', name: 'ONGC' },
+  'tatapower': { yahooSymbol: 'TATAPOWER.NS', name: 'Tata Power' },
+
+  // FMCG & Retail
   'itc': { yahooSymbol: 'ITC.NS', name: 'ITC' },
-  'sbin': { yahooSymbol: 'SBIN.NS', name: 'SBIN' },
-  'adanient': { yahooSymbol: 'ADANIENT.NS', name: 'ADANIENT' },
-  'bhartiartl': { yahooSymbol: 'BHARTIARTL.NS', name: 'BHARTIARTL' },
-  'tatasteel': { yahooSymbol: 'TATASTEEL.NS', name: 'TATASTEEL' },
-  'bajfinance': { yahooSymbol: 'BAJFINANCE.NS', name: 'BAJFINANCE' },
+  'hindunilvr': { yahooSymbol: 'HINDUNILVR.NS', name: 'Hindustan Unilever' },
+  'titan': { yahooSymbol: 'TITAN.NS', name: 'Titan' },
+  'nestleind': { yahooSymbol: 'NESTLEIND.NS', name: 'Nestle India' },
+  'trent': { yahooSymbol: 'TRENT.NS', name: 'Trent (Zudio)' },
+  'dmart': { yahooSymbol: 'DMART.NS', name: 'Avenue Supermarts' },
+
+  // Consumer Internet
+  'zomato': { yahooSymbol: 'ETERNAL.NS', name: 'Zomato (Eternal)' },
+  'paytm': { yahooSymbol: 'PAYTM.NS', name: 'Paytm' },
+  'nykaa': { yahooSymbol: 'NYKAA.NS', name: 'Nykaa' },
+
+  // Metals & Mining
+  'tatasteel': { yahooSymbol: 'TATASTEEL.NS', name: 'Tata Steel' },
+  'jswsteel': { yahooSymbol: 'JSWSTEEL.NS', name: 'JSW Steel' },
+  'hindalco': { yahooSymbol: 'HINDALCO.NS', name: 'Hindalco' },
+  'vedl': { yahooSymbol: 'VEDL.NS', name: 'Vedanta' },
+
+  // Pharma & Health
+  'sunpharma': { yahooSymbol: 'SUNPHARMA.NS', name: 'Sun Pharma' },
+  'cipla': { yahooSymbol: 'CIPLA.NS', name: 'Cipla' },
+  'drreddy': { yahooSymbol: 'DRREDDY.NS', name: 'Dr. Reddy' },
+  'apollohosp': { yahooSymbol: 'APOLLOHOSP.NS', name: 'Apollo Hospitals' },
+
+  // Infrastructure & Conglomerates
+  'lt': { yahooSymbol: 'LT.NS', name: 'Larsen & Toubro' },
+  'adanient': { yahooSymbol: 'ADANIENT.NS', name: 'Adani Enterprises' },
+  'adaniports': { yahooSymbol: 'ADANIPORTS.NS', name: 'Adani Ports' },
+  'ultracemco': { yahooSymbol: 'ULTRACEMCO.NS', name: 'UltraTech Cement' },
+
+  // Telecom, Defense & Paints
+  'bhartiartl': { yahooSymbol: 'BHARTIARTL.NS', name: 'Bharti Airtel' },
+  'hal': { yahooSymbol: 'HAL.NS', name: 'HAL Defense' },
+  'bel': { yahooSymbol: 'BEL.NS', name: 'Bharat Electronics' },
+  'asianpaint': { yahooSymbol: 'ASIANPAINT.NS', name: 'Asian Paints' },
 };
 
 export async function fetchLiveQuote(yahooSymbol: string): Promise<RealQuote | null> {
@@ -81,18 +135,23 @@ export async function fetchLiveQuote(yahooSymbol: string): Promise<RealQuote | n
   return null;
 }
 
+// Fetch in parallel chunks of 12 for maximum performance
 export async function fetchAllLiveMarketQuotes(): Promise<{ [id: string]: RealQuote }> {
   const results: { [id: string]: RealQuote } = {};
   const entries = Object.entries(TICKER_MAP);
+  const chunkSize = 12;
 
-  await Promise.all(
-    entries.map(async ([id, item]) => {
-      const quote = await fetchLiveQuote(item.yahooSymbol);
-      if (quote) {
-        results[id] = quote;
-      }
-    })
-  );
+  for (let i = 0; i < entries.length; i += chunkSize) {
+    const chunk = entries.slice(i, i + chunkSize);
+    await Promise.all(
+      chunk.map(async ([id, item]) => {
+        const quote = await fetchLiveQuote(item.yahooSymbol);
+        if (quote && quote.price > 0) {
+          results[id] = quote;
+        }
+      })
+    );
+  }
 
   return results;
 }
